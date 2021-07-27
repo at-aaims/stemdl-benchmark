@@ -61,3 +61,9 @@ CMD="python -u stemdl_run.py --hvd_fp16
 jsrun -n<NODES> -a 6 -c 42 -g 6 -r 1 --bind=proportional-packed:7 --launch_distribution=packed stdbuf -o0 utils/launch.sh "${CMD}"
 ```
 
+## Metrics 
+
+### Classification
+
+- Due to the intrinsic imbalance of the crystal space group distribution in nature, the classes in the dataset are also imbalanced. We use __F1 score (Macro)__ to measure the model performance and a value of __0.9__ is considered converged (although more study in the scientific baseline is needed). For this metric, time-to-solution for training a converged model is of interest. 
+- Considering the application of the pre-trained model at the edge, other metrics of interest are the __model size__ and __inference time__. Generally, for the same convergence criteria as above, the smaller the model size, the better.    
