@@ -21,9 +21,10 @@
 Download the classificatoin dataset from [10.13139/OLCF/1510313](https://doi.ccs.ornl.gov/ui/doi/70) via Globus. 
 If you have access to OLCF machines, the preprocessed data are available at 
 ```bash
-classification: /gpfs/alpine/world-shared/gen011/sajal/dc20/spacegroup/mxdata
+classification: /gpfs/alpine/world-shared/stf011/junqi/stemdl/classification/data
 reconstruction: /gpfs/alpine/world-shared/stf011/junqi/stemdl/data
 ```
+The train-test data split is with respect to different materials. 
 
 ## Quickstart
 
@@ -67,10 +68,17 @@ CMD="python -u stemdl_run.py --hvd_fp16
 jsrun -n<NODES> -a 6 -c 42 -g 6 -r 1 --bind=proportional-packed:7 --launch_distribution=packed stdbuf -o0 utils/launch.sh "${CMD}"
 ```
 
+## Scientific Goal 
+
+### Classification 
+
+- A universal classifier for the space group of solid-state materials. 
+ 
 ## Metrics 
 
 ### Classification
 
-- Due to the intrinsic imbalance of the crystal space group distribution in nature, the classes in the dataset are also imbalanced. We use __F1 score (Macro)__ to measure the model performance and a value of __0.9__ is considered converged (although more study in the scientific baseline is needed). For this metric, __time-to-solution__ for training a converged model is of interest. 
-- Considering the application of the pre-trained model at the edge, other metrics of interest are the __model size__ and __inference time__. Generally, for the same convergence criteria as above, the smaller the model size, the better.    
+- Due to the intrinsic imbalance of the crystal space group distribution in nature, the classes in the dataset are also imbalanced. We use both __top1 accuracy__ and __F1 score (Macro)__ to measure the model performance and the example implementation provides a baseline validation top1 accuracy ~0.57 and F1 score ~0.43. Note that the train-test data split is with respect to different materials, i.e. the validation is on materials hasn't been seen by the model.   
+ 
+- Considering the application of the pre-trained model at the edge, other metrics of interest are the __model size__ and __inference time__. Generally, for the same performance metric as above, the smaller the model size, the better.    
 
